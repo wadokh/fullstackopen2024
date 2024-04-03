@@ -9,9 +9,9 @@ const Part=(props)=>{
 const Content= (props)=>{
     return(
         <>
-            <Part part={props.parts[0].name} exercise={props.parts[0].exercises}/>
-            <Part part={props.parts[1].name} exercise={props.parts[1].exercises}/>
-            <Part part={props.parts[2].name} exercise={props.parts[2].exercises}/>
+            <Part part={props.course.parts[0].name} exercise={props.course.parts[0].exercises}/>
+            <Part part={props.course.parts[1].name} exercise={props.course.parts[1].exercises}/>
+            <Part part={props.course.parts[2].name} exercise={props.course.parts[2].exercises}/>
 
         </>
     )
