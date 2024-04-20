@@ -1,6 +1,13 @@
 import Header from './Header.jsx'
 
 import { useState } from 'react'
+
+const StatisticLine=(props)=>{
+  return(
+    <div>{props.text} {props.value}</div>
+  )
+}
+
 const Statistics=(props)=>{
   if(props.good==0 && props.neutral==0 && props.bad==0){
     return(
@@ -12,15 +19,24 @@ const Statistics=(props)=>{
   }
       return(<>
         <Header heading="statistics"/>
-        <div>good {props.good}</div>
-        <div>neutral {props.neutral}</div>
-        <div>bad {props.bad}</div>
-        <div>all {props.good+props.neutral+props.bad}</div>
-        <div>average {(props.good-props.bad)/(props.good+props.neutral+props.bad)}</div>
-        <div>positive {props.good/(props.good+props.neutral+props.bad)*100}%</div>
+        <StatisticLine text="good" value={props.good}></StatisticLine>
+        <StatisticLine text="neutral" value={props.neutral}></StatisticLine>
+        <StatisticLine text="bad" value={props.bad}></StatisticLine>
+        <StatisticLine text="all" value={props.good+props.neutral+props.bad}></StatisticLine>
+        <StatisticLine text="average" value={(props.good-props.bad)/(props.good+props.neutral+props.bad)}></StatisticLine>
+        <StatisticLine text="positive" value={props.good/(props.good+props.neutral+props.bad)*100+" %"}></StatisticLine>
+
       </>
       )
 }
+
+const Button=(props)=>{
+  return(
+    <button onClick={()=>props.setter(props.value+1)}>{props.btnName}</button>
+  )
+}
+
+
 const App = () => {
   // save clicks of each button to its own state
   const [good, setGood] = useState(0)
@@ -34,9 +50,10 @@ const App = () => {
   return (
     <div>
       <Header heading="give feedback"/>
-      <button onClick={()=>setToValue(setGood,good+1)}>good</button>
-      <button onClick={()=>setToValue(setNeutral,neutral+1)}>neutral</button>
-      <button onClick={()=>setToValue(setBad,bad+1)}>bad</button>
+      <Button setter={setGood} value={good} btnName="good"></Button>
+      <Button setter={setNeutral} value={neutral} btnName="neutral"></Button>
+      <Button setter={setBad} value={bad} btnName="bad"></Button>
+
       <Statistics good={good} neutral={neutral}  bad={bad}/>
 
 
