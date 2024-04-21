@@ -14,10 +14,11 @@ const App = () => {
    
   const [selected, setSelected] = useState(0)
   const [votes, setVotes]=useState(Array(anecdotes.length).fill(0))
+  const [maxVotes, setMaxVotes]=useState(0)
 
   function getRandomInt(min, max) {
     // console.log(selected)
-    // console.log(votes)
+    console.log(votes)
     // console.log(votes[selected])
     const minCeiled = Math.ceil(min);
     const maxFloored = Math.floor(max);
@@ -28,17 +29,22 @@ const App = () => {
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       {anecdotes[selected]}
       <br />
       has {votes[selected]} votes
       <br />
       <button onClick={()=>{
-        setVotes(votes=>({
-          ...votes,
-          [selected]: votes[selected]+1
-       }))
+        const newVotes=[...votes]
+        newVotes[selected]+=1
+        setVotes(newVotes)
+       setMaxVotes(votes.indexOf(Math.max(...votes)))
       }}>vote</button>
       <button onClick={()=>setSelected(getRandomInt(0,anecdotes.length))}>next anecdote</button>
+      <h1>Anecdote with most votes</h1>
+      {anecdotes[maxVotes]}
+      <br />
+      has {votes[maxVotes]} votes
     </div>
   )
 }
