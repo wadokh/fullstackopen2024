@@ -13,9 +13,12 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [votes, setVotes]=useState(Array(anecdotes.length).fill(0))
 
   function getRandomInt(min, max) {
-    console.log(selected)
+    // console.log(selected)
+    // console.log(votes)
+    // console.log(votes[selected])
     const minCeiled = Math.ceil(min);
     const maxFloored = Math.floor(max);
     return Math.floor(Math.random() * (maxFloored - minCeiled) + minCeiled); // The maximum is exclusive and the minimum is inclusive
@@ -27,6 +30,14 @@ const App = () => {
     <div>
       {anecdotes[selected]}
       <br />
+      has {votes[selected]} votes
+      <br />
+      <button onClick={()=>{
+        setVotes(votes=>({
+          ...votes,
+          [selected]: votes[selected]+1
+       }))
+      }}>vote</button>
       <button onClick={()=>setSelected(getRandomInt(0,anecdotes.length))}>next anecdote</button>
     </div>
   )
