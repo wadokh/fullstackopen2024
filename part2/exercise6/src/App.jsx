@@ -3,12 +3,14 @@ import personServices from './services/person'
 import Filter from './components/Filter'
 import Persons from './components/Persons'
 import PersonForm from './components/PersonForm'
-
+import Added from './components/Added'
 const App = () => {
   const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [newfilter, setFilter] = useState('')
+  const [addMessage, setAddMessage] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   useEffect(() => {
     personServices
@@ -25,20 +27,23 @@ const App = () => {
       const nameObject = persons.find(p=>p.name===newName)
       const newObject = {...nameObject}
       newObject.number = newNumber
-      console.log(newObject);
-      console.log(nameObject);
       personServices
         .update(nameObject.id, newObject)
         .then(returnedPerson =>{
-          console.log(returnedPerson)
           setPersons(persons.map(person=>person.id!==nameObject.id ? person : returnedPerson))
           setNewName('')
           setNewNumber('')
         })
+        .catch(error=>{
+          setErrorMessage(`Information of ${newName} has already been removed from the server`)
+          setPersons(persons.filter(n=>n.name!==newName))
+        })
+        setTimeout(()=>{
+          setErrorMessage(null)
+        },5000)
         return;
     }
     else{
-      console.log("test");
       const nameObject = {
         name: newName,
         number: newNumber,
@@ -48,6 +53,12 @@ const App = () => {
       personServices
         .create(nameObject)
         .then(returnedPerson =>{
+          setAddMessage(
+            `Added ${returnedPerson.name}`
+          )
+          setTimeout(()=>{
+            setAddMessage(null)
+          },5000)
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
@@ -56,7 +67,6 @@ const App = () => {
   }
 
   const deletePerson = (id)=>{
-    console.log(id);
     const name = persons.find(p=>p.id===id).name
     if(confirm(`delete ${name}`)){
       personServices
@@ -67,7 +77,6 @@ const App = () => {
   }
 
   const handleNameChange = (event) => {
-    console.log(event.target.value);
     setNewName(event.target.value)
   }
 
@@ -78,6 +87,8 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+
+      <Added message={addMessage} error={errorMessage} />
 
       <Filter newFilter={newfilter} setFilter={setFilter} />
 
