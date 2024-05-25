@@ -72,6 +72,13 @@ const App = () => {
       personServices
         .deleteP(id)
         .then(returnedPerson=>{
+          console.log(returnedPerson)
+          setErrorMessage(
+            `Deleted ${name}`
+          )
+          setTimeout(()=>{
+            setErrorMessage(null)
+          },5000)
           setPersons(persons.filter(person=>person.id!=returnedPerson.id))
         })}
   }
