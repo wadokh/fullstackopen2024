@@ -67,19 +67,19 @@ const App = () => {
   }
 
   const deletePerson = (id)=>{
-    const name = persons.find(p=>p.id===id).name
+    const person = persons.find(p=>p.id===id)
     if(confirm(`delete ${name}`)){
       personServices
         .deleteP(id)
         .then(returnedPerson=>{
           console.log(returnedPerson)
           setErrorMessage(
-            `Deleted ${name}`
+            `Deleted ${person.name}`
           )
           setTimeout(()=>{
             setErrorMessage(null)
           },5000)
-          setPersons(persons.filter(person=>person.id!=returnedPerson.id))
+          setPersons(persons.filter(p=>p.id!=person.id))
         })}
   }
 
