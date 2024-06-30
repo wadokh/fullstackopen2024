@@ -1,42 +1,49 @@
 
-require('dotenv').config()
-const express = require('express')
-const app = express()
-app.use(express.json())
-const Blog = require('./models/blog')
+const app = require('./app') // the actual Express application
+const config = require('./utils/config')
+const logger = require('./utils/logger')
 
-app.get('/', (request, response) => {
-response.send('<h1>Hello World!</h1>')
+app.listen(config.PORT, () => {
+  logger.info(`Server running on port ${config.PORT}`)
 })
+// require('dotenv').config()
+// const express = require('express')
+// const app = express()
+// app.use(express.json())
+// const Blog = require('./models/blog')
 
-app.get('/api/blogs', (request, response) => {
-  Blog
-    .find({})
-    .then(blogs => {
-      response.json(blogs)
-    })
-})
+// app.get('/', (request, response) => {
+// response.send('<h1>Hello World!</h1>')
+// })
 
-app.get('/api/notes/:id', (request, response) => {
-  Blog.findById(request.params.id).then(blog => {
-    response.json(blog)
-  })
-})
-app.post('/api/blogs', (request, response) => {
-  const blog = new Blog(
-    {title, author, url, likes} = request.body )
+// app.get('/api/blogs', (request, response) => {
+//   Blog
+//     .find({})
+//     .then(blogs => {
+//       response.json(blogs)
+//     })
+// })
 
-  blog
-    .save()
-    .then(result => {
-      response.status(201).json(result)
-    })
-})
+// app.get('/api/notes/:id', (request, response) => {
+//   Blog.findById(request.params.id).then(blog => {
+//     response.json(blog)
+//   })
+// })
+// app.post('/api/blogs', (request, response) => {
+//   const blog = new Blog(
+//     {title, author, url, likes} = request.body )
 
-const PORT = 3001
-app.listen(PORT, () => {
-console.log(`Server running on port ${PORT}`)
-})
+//   blog
+//     .save()
+//     .then(result => {
+//       response.status(201).json(result)
+//     })
+// })
+
+// const PORT = 3001
+// app.listen(PORT, () => {
+// console.log(`Server running on port ${PORT}`)
+// })
 
 
 // const express = require('express')
