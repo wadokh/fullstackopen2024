@@ -33,7 +33,11 @@ const Blog = ({ blog, addLike, user, removeBlog }) => {
         {blog.likes} <button onClick={() => addLike(blog)}>like</button> <br/>
         {blog.user.username} <br/>
         {user.username === blog.user.username && (
-        <button onClick={() => removeBlog(blog)}>remove</button>
+        <button onClick={() => {
+          if (window.confirm(`Remove blog ${blog.title} by ${blog.author}`)){
+            removeBlog(blog)
+          }
+        }}>remove</button>
       )}
       </div>
   </div>
