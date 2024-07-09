@@ -8,8 +8,8 @@ const getAll = () => {
 }
 
 const getById = (id) => {
-  const request = axios.get(`${baseUrl}/${id}`);
-  return request.then(response => response.data);
+  const request = axios.get(`${baseUrl}/${id}`)
+  return request.then(response => response.data)
 }
 
 const setToken = newToken => {
@@ -17,8 +17,8 @@ const setToken = newToken => {
 }
 
 const remove = (id) => {
-  const request = axios.delete(`${baseUrl}/${id}`);
-  return request.then(response => response.data);
+  const request = axios.delete(`${baseUrl}/${id}`)
+  return request.then(response => response.data)
 }
 
 

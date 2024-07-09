@@ -11,8 +11,8 @@ const App = () => {
   const [blogs, setBlogs] = useState([])
   const [errorMessage, setErrorMessage] = useState(null)
   const [addMessage, setAddMessage] = useState(null)
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('') 
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [loginVisible, setLoginVisible] = useState(false)
 
@@ -21,7 +21,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -36,19 +36,19 @@ const App = () => {
   useEffect(() => {
     if (addMessage !== null) {
       const timer = setTimeout(() => {
-        setAddMessage(null);
-      }, 5000);
+        setAddMessage(null)
+      }, 5000)
 
       // Cleanup the timer if the component unmounts or if addMessage changes
-      return () => clearTimeout(timer);
+      return () => clearTimeout(timer)
     }
-  }, [addMessage]);
+  }, [addMessage])
 
   const addBlog = (blogObject) => {
-    blogFormRef.current.toggleVisibility()  
+    blogFormRef.current.toggleVisibility()
     blogService
       .create(blogObject)
-        .then(returnedBlog => {
+      .then(returnedBlog => {
         setBlogs(blogs.concat(returnedBlog))
         setAddMessage(`a new blog ${returnedBlog.title} by ${returnedBlog.author}`)
       })
@@ -57,20 +57,20 @@ const App = () => {
   const removeBlog = (blog) => {
     blogService.remove(blog.id)
       .then(() => {
-        setBlogs(blogs.filter(b => b.id !== blog.id));
+        setBlogs(blogs.filter(b => b.id !== blog.id))
       })
-}
+  }
 
 
   const addLike = (blog) => {
     const updatedBlog = { ...blog, likes: blog.likes + 1 }
     blogService.update(updatedBlog.id,updatedBlog)
-    setBlogs(blogs.map(b => b.id != blog.id ? b : updatedBlog))
+    setBlogs(blogs.map(b => b.id !== blog.id ? b : updatedBlog))
   }
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    
+
     try {
       const user = await loginService.login({
         username, password,
@@ -131,11 +131,11 @@ const App = () => {
   return (
     <div>
       <h2>blogs</h2>
-      <Notification message={addMessage} messageClass={"added"} />
+      <Notification message={addMessage} messageClass={'added'} />
       <p>{user.name} logged-in <button onClick={handleLogout}>logout</button></p>
       <Togglable buttonLabel='new blog' ref={blogFormRef}>
         <BlogForm
-          createBlog={addBlog} 
+          createBlog={addBlog}
         />
       </Togglable>
       {blogs.sort((blog1, blog2) => blog2.likes - blog1.likes).map(blog =>
